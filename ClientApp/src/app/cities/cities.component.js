@@ -10,17 +10,26 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var table_1 = require("@angular/material/table");
+var paginator_1 = require("@angular/material/paginator");
 var CitiesComponent = /** @class */ (function () {
     function CitiesComponent(http, baseUrl) {
         this.http = http;
         this.baseUrl = baseUrl;
+        this.displayedColumns = ['id', 'name', 'lat', 'lon'];
+        this.dataSource = new table_1.MatTableDataSource(this.cities);
     }
     CitiesComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.http.get(this.baseUrl + 'api/Cities').subscribe(function (result) {
             _this.cities = result;
+            _this.dataSource.data = _this.cities;
+            _this.dataSource.paginator = _this.paginator;
         }, function (error) { return console.error(error); });
     };
+    __decorate([
+        core_1.ViewChild(paginator_1.MatPaginator, { static: true })
+    ], CitiesComponent.prototype, "paginator", void 0);
     CitiesComponent = __decorate([
         core_1.Component({
             selector: 'app-cities',
